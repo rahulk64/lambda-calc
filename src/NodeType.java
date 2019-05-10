@@ -1,20 +1,23 @@
 	/**
-	 * A node can be of the following types:
-	 * NAME, FUNC, APP
+	 * A node can return any of the following:
+	 * NAT, BOOL, FUNC, JOHN_CENA
 	 */
 	public enum NodeType
 	{
 		/**
-		 * A name is a function to be evaluated
+		 * a natural number
 		 */
-		NAME,
+		NAT,
 		
 		/**
-		 * Grammar operators
+		 * a boolean 
 		 */
-		FUNC,
+		BOOL,
 		
-		APP,
+		/** 
+		 * a function
+		 */
+		FUNC, 
 		
 		/**
 		 * LEGEND

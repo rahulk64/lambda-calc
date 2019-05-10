@@ -15,6 +15,7 @@ public class ParseTreeNode
 	// The node's left and right children
 	private ParseTreeNode left, right, middle; //middle only used for if
 	private Token token;
+	private NodeType nodeType;
 	
 	/**
 	 * Constructor for a node with two children.
@@ -26,6 +27,7 @@ public class ParseTreeNode
 	public ParseTreeNode(Token t, ParseTreeNode left, ParseTreeNode right)
 	{
 		token = t;
+		nodeType = null;
 		this.left = left;
 		this.right = right;
 		this.middle = null;
@@ -73,6 +75,27 @@ public class ParseTreeNode
 		return token.getType();
 	}
 	
+	/**
+	 * A simple getter method to determine the type of the node held by
+	 * the node object.
+	 * 
+	 * @return 		The type of the token held by the parse tree node.
+	 */
+	public NodeType getNodeType()
+	{
+		return nodeType;
+	}
+	
+	/**
+	 * A simple setter method to determine the type of the node held by
+	 * the node object.
+	 * 
+	 * @return 		The type of the token held by the parse tree node.
+	 */
+	public void setNodeType(NodeType n)
+	{
+		nodeType = n;
+	}
 	
 	/**
 	 * A simple getter method to retrieve the node's left child
