@@ -87,6 +87,13 @@ class QueryParserTest {
 		assertEquals(TokenType.PLUS, parser.getToken().getType());
 		assertEquals(TokenType.NUM, parser.getToken().getType());
 		
+		//let
+		parser = new QueryParser("let name = 42");
+		assertEquals(TokenType.LET, parser.getToken().getType());
+		assertEquals(TokenType.NAME, parser.getToken().getType());
+		assertEquals(TokenType.EQUAL, parser.getToken().getType());
+		assertEquals(TokenType.NUM, parser.getToken().getType());
+		
 	}
 
 	@Test
@@ -186,23 +193,6 @@ class QueryParserTest {
 		assertEquals(TokenType.NAME, mchild.getToken().getType());
 		assertEquals(TokenType.NAME, rchild.getToken().getType());
 		
-//		//same but in proper order
-//		parser = new QueryParser("if-then-else name exp1 exp2");
-//		
-//		root = parser.parseQuery();					//IF
-//		lchild = root.getLeft();					//name
-//		mchild = root.getMiddle();					//exp1
-//		rchild = root.getRight();					//exp2
-//		
-//		assertEquals(TokenType.IF, root.getToken().getType());
-//		assertEquals("name", lchild.getToken().toString());
-//		assertEquals("exp1", mchild.getToken().toString());
-//		assertEquals("exp2", rchild.getToken().toString());
-//		
-//		assertEquals(TokenType.NAME, lchild.getToken().getType());
-//		assertEquals(TokenType.NAME, mchild.getToken().getType());
-//		assertEquals(TokenType.NAME, rchild.getToken().getType());
-		
 		
 		//complex if statement with a number
 		parser = new QueryParser("if ( name 42 ) then ( exp1 exp2 ) else ( \\x -> x )");
@@ -242,5 +232,31 @@ class QueryParserTest {
 		
 		assertEquals(TokenType.NUM, lchild.getTokenType());
 		assertEquals(TokenType.NUM, rchild.getTokenType());
+		
+		//let
+		parser = new QueryParser("let name = 42");
+		root = parser.parseQuery();
+		
+		assertEquals(null, root);
+		assertEquals(1, parser.map.size());
+		
+		ParseTreeNode name = parser.map.get("name");
+		assertEquals("42", name.toString());
+		assertEquals(TokenType.NUM, name.getTokenType());
+		
+		//more complex let
+		parser = new QueryParser("let exp = \\x -> ( x + 4 )");
+		root = parser.parseQuery();
+		assertEquals(null, root);
+		assertEquals(1, parser.map.size());
+		
+		ParseTreeNode exp = parser.map.get("exp");
+		assertNotNull(exp);
+		assertEquals(TokenType.FUNC, exp.getTokenType());
+		assertEquals(TokenType.NAME, exp.getLeft().getTokenType());
+		assertEquals(TokenType.PLUS, exp.getRight().getTokenType());
+		assertEquals(TokenType.NAME, exp.getRight().getLeft().getTokenType());
+		assertEquals(TokenType.NUM, exp.getRight().getRight().getTokenType());
+		
 	}
 }

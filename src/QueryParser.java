@@ -1,4 +1,4 @@
-
+import java.util.HashMap;
 
 /**
  * @author GRANT SKAGGS
@@ -14,6 +14,7 @@
 public class QueryParser 
 {
 	private String stream;
+	public HashMap<String, ParseTreeNode> map;
 	
 	/**
 	 * Constructs a new QueryParserObject on a given query String.
@@ -24,6 +25,7 @@ public class QueryParser
 	 */
 	public QueryParser(String query) throws NullPointerException, IllegalQueryException
 	{
+		map = new HashMap<String, ParseTreeNode>();
 		stream = query;
 		stream = stream.trim();
 		//stream = stream.toLowerCase();
@@ -95,6 +97,14 @@ public class QueryParser
     	else if (c == '+')
     		token = new Token(TokenType.PLUS, '+');
     	
+    	else if (c == 'l' && stream.length() > 1 && stream.substring(0, 2).equals("et")) {
+    		stream = stream.substring(2);
+    		token = new Token(TokenType.LET, "let");
+    	}
+    	
+    	else if (c == '=')
+    		token = new Token(TokenType.EQUAL, '=');
+    	
     	else
     	{
     		// We are building a name or number
@@ -148,7 +158,6 @@ public class QueryParser
      */
     public ParseTreeNode parseQuery() throws IllegalQueryException
     {  	
-    	
     	ParseTreeNode prev = null, cur = null;
     	
     	while(stream.length() > 0) {
@@ -182,6 +191,9 @@ public class QueryParser
     			else if(type == TokenType.PLUS) 
     				throw new IllegalQueryException("+ not allowed at beginning!");
     			
+    			else if(type == TokenType.EQUAL) 
+    				throw new IllegalQueryException("= not allowed at beginning!");
+    			
     			else if(type == TokenType.IF) {
     				ParseTreeNode lif = parseQuery();
     				
@@ -197,6 +209,23 @@ public class QueryParser
     				cur = new ParseTreeNode(IfToken, lif, mthen, relse);
     				
     				return cur;
+    			}
+    			
+    			else if(type == TokenType.LET) {
+    				Token tok = getToken(); //name
+    				if(tok.getType() != TokenType.NAME) {
+    					throw new IllegalQueryException("Invalid Let Usage");
+    				}
+    				
+    				String name = tok.toString();
+    				
+    				getToken(); // = 
+    				
+    				ParseTreeNode letexp = parseQuery();
+    				
+    				map.put(name, letexp);
+    				
+    				return null;
     			}
     		}
     		
@@ -230,11 +259,19 @@ public class QueryParser
     				throw new IllegalQueryException("Invalid if expression");
     			}
     			
+    			else if (type == TokenType.LET) {
+    				throw new IllegalQueryException("Can't use \"let\" in middle of command");
+    			}
+    			
     			else if (type == TokenType.PLUS) {
     				Token PlusToken = new Token(TokenType.PLUS, "+");
     				ParseTreeNode remaining = parseQuery();
     				
     				cur = new ParseTreeNode(PlusToken, prev, remaining);
+    			}
+    			
+    			else if(type == TokenType.EQUAL) {
+    				throw new IllegalQueryException("Invalid use of = operator");
     			}
     			
     		}

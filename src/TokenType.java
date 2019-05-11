@@ -54,6 +54,12 @@
 		FALSE,
 		
 		/**
+		 * Other
+		 */
+		LET,
+		EQUAL,
+		
+		/**
 		 * LEGEND
 		 */
 		JOHN_CENA
