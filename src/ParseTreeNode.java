@@ -1,15 +1,4 @@
-/**
- * @author GRANT SKAGGS
- * LAST EDIT: 12/10/2018
- * 
- * CS314H Programming Assignment 7 - WEB CRAWLER
- * 
- * Used by the WebQueryEngine during the creation of parse trees.
- * Each of these node's has at most two children and does not store
- * any reference to its parent (if it has one). Each node holds
- * a token which is the word or operator the node stores.
- *
- */
+
 public class ParseTreeNode 
 {
 	// The node's left and right children

@@ -1,14 +1,4 @@
 
-/**
- * @author GRANT SKAGGS
- * LAST EDIT: 12/10/2018
- * 
- * CS314H Programming Assignment 7 - WEB CRAWLER
- * 
- * Used by the QueryParser class to inform objects of the
- * WebQueryEngine class that the current query is invalid 
- *
- */
 public class IllegalQueryException extends Exception 
 {
 

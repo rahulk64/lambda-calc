@@ -1,13 +1,4 @@
 
-/**
- * @author GRANT SKAGGS
- * LAST EDIT: 12/10/2018
- * 
- * CS314H Programming Assignment 7 - WEB CRAWLER
- * 
- * Used by the WebQueryEngine to represent a token during the parsing of query strings.
- *
- */
 public class Token 
 {
 	

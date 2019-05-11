@@ -1,16 +1,5 @@
 import java.util.HashMap;
 
-/**
- * @author GRANT SKAGGS
- * LAST EDIT: 12/10/2018
- * 
- * CS314H Programming Assignment 7 - WEB CRAWLER
- * 
- * Used by the WebQueryEngine to parse a given query into a parse tree.
- * Has an instance variable stream representing the current portion of the 
- * query which still needs to be parsed.
- *
- */
 public class QueryParser 
 {
 	private String stream;
